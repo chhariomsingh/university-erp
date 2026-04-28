@@ -6,9 +6,12 @@ const User = require('./models/user.model');
 const testRoutes = require('./routes/test.routes');
 const Student = require('./models/student.model');
 const studentRoutes = require('./routes/student.routes');
+const courseRoutes = require('./routes/course.routes');
 
 
 
+app.use('/api/students', studentRoutes); 
+app.use('/api/courses', courseRoutes);
 app.use(express.json());
 
 // DB connect
@@ -25,15 +28,16 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/auth', authRoutes);
-
-
 app.use('/api/test', testRoutes);
 
 
 sequelize.sync()
   .then(() => console.log("Tables synced ✅"));
 
+require('./models'); // 👈 VERY IMPORTANT (loads relations)
 
-app.use('/api/students', studentRoutes);  
+sequelize.sync({ alter: true })
+  .then(() => console.log("DB synced with relations ✅"));
+
 
 module.exports = app;
