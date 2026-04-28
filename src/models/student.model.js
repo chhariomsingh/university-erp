@@ -10,8 +10,8 @@ const Student = sequelize.define('Student', {
     type: DataTypes.STRING,
     unique: true
   },
-  course: {
-    type: DataTypes.STRING
+  courseId: {
+    type: DataTypes.INTEGER   // 👈 foreign key
   }
 });
 
